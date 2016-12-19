@@ -25,18 +25,20 @@
 
   // Generate list by upper-tier.
   var getList = function(strUpperTier, dataSource) {
-  	if (dataSource && (strUpperTier != undefined)) {
-    	var upperTiers = strUpperTier.split(";");
-      var r = [];
-      var upperTier;
-      for (var i = 0, len = upperTiers.length; i < len; i++) {
-      	upperTier = upperTiers[i];
-	    	if (dataSource[upperTier]) {
-					 r = r.concat(dataSource[upperTier]);
+    if (dataSource && (strUpperTier != undefined)) {
+        var upperTiers = strUpperTier.split(";");
+        var r = [];
+        var upperTier;
+
+        for (var i = 0, len = upperTiers.length; i < len; i++) {
+          upperTier = upperTiers[i];
+          // Only for valid list.
+          if (dataSource[upperTier]) {
+             r = r.concat(dataSource[upperTier]);
+          }
         }
-      }
-			return r;
-		}
+        return r;
+    }
     return null;
   };
   
@@ -46,7 +48,7 @@
   };
 
   // Update select html
-	var updateOptionHtml = function(select, data, upperTier) {
+  var updateOptionHtml = function(select, data, upperTier) {
     var list = getList(upperTier, data.dataSource);
     var $select = $(select);
     if (list) {
@@ -65,13 +67,13 @@
         allIds = null;
       }
     } else {
-			throw new Error("Missing data, key=" + upperTier);
+      throw new Error("Missing data, key=" + upperTier);
     }
   };
 
   /**
    * $.fn.cascadeSelect plugin
-   * @param {objct} option plugin config data
+   * @param {object} option plugin config data
    * @return {jQuery} jQuery object
    *  option : 
    *     {
@@ -90,7 +92,7 @@
       updateOptionHtml(this, option, option.upperTierGetter());
       $this.data(CASCADESELECT_DATAMARKER_OPTION, option);
 
-      // Internal
+      // If value changed, then call updated.
       $this.bind("change", function() {
         var $this = $(this);
         var val = $this.val();

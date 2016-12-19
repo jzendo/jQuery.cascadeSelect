@@ -1,3 +1,4 @@
 # jquery.cascadeSelect
 
-A jquery plugin for cascade selects. Read index.html for detail.
+A jquery plugin is for cascade selects.
+Read index.html(also as demo) for detail.
