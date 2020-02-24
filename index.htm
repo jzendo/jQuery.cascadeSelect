@@ -2,65 +2,105 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>jQuery Cascade-Select Plugin</title>
+    <title>jQuery Cascade-Select Plugin Demo</title>
+    <style>
+      .demo {
+        min-height: 200px;
+        margin: 20px 10px;
+      }
+      .demo select {
+        padding: 0 10px;
+        height: 30px;
+      }
+    </style>
     <script src="https://apps.bdimg.com/libs/jquery/1.4.1/jquery.min.js"></script>
     <script src="./jquery.cascadeSelect.min.js"></script>
   </head>
   <body>
-    <p>jQuery Cascade-Select Plugin (from left to right)</p>
-    <select id="list1"></select>&lt;=&gt;<select id="list2"></select>&lt;=&gt;<select id="list3"></select>
+    <div class="demo">
+      <p>jQuery Cascade-Select Plugin (from left to right)</p>
+      <select id="list1"></select>&lt;=&gt;<select id="list2"></select>&lt;=&gt;<select id="list3"></select>
+    </div>
     <script>
-        var list1 = {
-          "":[{"id":1,"label":"label1"},{"id":2,"label":"label2"}]
+      var list1 = {
+        "": [
+          { id: 1, label: "label1" },
+          { id: 2, label: "label2" }
+        ]
+      };
+      var list2 = {
+        "1": [
+          { id: 11, label: "label1-1" },
+          { id: 12, label: "label1-2" }
+        ],
+        "2": [
+          { id: 21, label: "label2-1" },
+          { id: 22, label: "label2-2" }
+        ]
+      };
+      var list3 = {
+        "11": [
+          { id: 111, label: "label1-1-1" },
+          { id: 112, label: "label1-1-2" }
+        ],
+        "12": [
+          { id: 121, label: "label1-2-1" },
+          { id: 122, label: "label1-2-2" }
+        ],
+        "21": [
+          { id: 211, label: "label2-1-1" },
+          { id: 212, label: "label2-1-2" }
+        ],
+        "22": [
+          { id: 221, label: "label2-2-1" },
+          { id: 222, label: "label2-2-2" }
+        ]
+      };
+
+      $(function() {
+        var cascadeSelectConfigA = {
+          upperTierGetter: function() {
+            return "";
+          },
+          dataSource: list1
         };
-        var list2 = {
-          "1":[{"id":11,"label":"label1-1"},{"id":12,"label":"label1-2"}],
-          "2":[{"id":21,"label":"label2-1"},{"id":22,"label":"label2-2"}]
+
+        var cascadeSelectConfigB = {
+          upperTierGetter: function() {
+            return $("#list1").val();
+          },
+          dataSource: list2
         };
-        var list3 = {
-          "11":[{"id":111,"label":"label1-1-1"},{"id":112,"label":"label1-1-2"}],
-          "12":[{"id":121,"label":"label1-2-1"},{"id":122,"label":"label1-2-2"}],
-          "21":[{"id":211,"label":"label2-1-1"},{"id":212,"label":"label2-1-2"}],
-          "22":[{"id":221,"label":"label2-2-1"},{"id":222,"label":"label2-2-2"}]
+
+        var cascadeSelectConfigC = {
+          upperTierGetter: function() {
+            return $("#list2").val();
+          },
+          dataSource: list3
         };
-        
-        $(function() {
-        
-          var cascadeSelectConfigA = {
-            upperTierGetter: function() { return ""; },
-            dataSource: list1
-          };
-        
-          var cascadeSelectConfigB = {
-            upperTierGetter: function() { return $("#list1").val(); },
-            dataSource: list2
-          };
-        
-          var cascadeSelectConfigC = {
-            upperTierGetter: function() { return $("#list2").val(); },
-            dataSource: list3
-          };
-        
-          $("#list1").cascadeSelect(cascadeSelectConfigA)
+
+        $("#list1")
+          .cascadeSelect(cascadeSelectConfigA)
           .bind("cascadeSelectChange", function() {
             console.log("List1 fire the change.");
             // Update next tier
             $("#list2").trigger("update");
           });
-        
-          $("#list2").cascadeSelect(cascadeSelectConfigB)
+
+        $("#list2")
+          .cascadeSelect(cascadeSelectConfigB)
           .bind("cascadeSelectChange", function() {
             console.log("List2 fire the change.");
             // Update next tier
             $("#list3").trigger("update");
           });
-        
-          $("#list3").cascadeSelect(cascadeSelectConfigC)
+
+        $("#list3")
+          .cascadeSelect(cascadeSelectConfigC)
           .bind("cascadeSelectChange", function() {
             console.log("List3 fire the change.");
           });
-        
-        });    
+      });
     </script>
   </body>
 </html>
