@@ -1,6 +1,6 @@
 {
   "name": "jquery.cascadeselect",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "index.js",
   "repository": "https://github.com/jzendo/jquery.cascadeSelect.git",
   "author": "zendo <jzendo@example.com>",
