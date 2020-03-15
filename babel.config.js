@@ -1,7 +1,15 @@
 const pk = require('./package.json')
 
+let presets
+
+if (process.env.NODE_ENV === 'test') {
+  presets = ["@babel/preset-env"]
+} else {
+  presets = ["@babel/preset-env", "minify"]
+}
+
 module.exports = {
-  presets: ["@babel/preset-env", "minify"],
+  presets,
   comments: true,
   shouldPrintComment: val => /^!/.test(val),
   plugins: [
